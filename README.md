@@ -119,7 +119,7 @@ Trust over theatrics
 Add screenshots or GIFs here to showcase the UI and animations.
 
 📂 Setup & Usage
-git clone https://github.com/your-username/restaurant-website.git
+git clone https://github.com/Ashutosh-JavaDev/ResturantWebsite.git
 cd restaurant-website
 open index.html
 
