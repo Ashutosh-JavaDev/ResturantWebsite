@@ -1,0 +1,2301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blackwood — Modern American Cuisine in Manhattan</title>
+    <meta name="description" content="Blackwood offers refined modern American cuisine in the heart of Manhattan. Experience heritage-driven cooking and timeless hospitality.">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ====================================
+           CSS VARIABLES & THEME SYSTEM
+           ==================================== */
+        :root {
+            /* Light Theme */
+            --bg-primary: #fdfcfa;
+            --bg-secondary: #f8f6f3;
+            --bg-elevated: #ffffff;
+            --text-primary: #1c1917;
+            --text-secondary: #57534e;
+            --text-tertiary: #78716c;
+            --border-subtle: #e7e5e4;
+            --border-emphasis: #d6d3d1;
+            --accent-gold: #b8985f;
+            --accent-gold-hover: #a17d47;
+            --accent-gold-subtle: #f5f0e6;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            
+            /* Animation Variables */
+            --transition-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        [data-theme="dark"] {
+            /* Dark Theme */
+            --bg-primary: #0f0e0d;
+            --bg-secondary: #1c1917;
+            --bg-elevated: #292524;
+            --text-primary: #fafaf9;
+            --text-secondary: #d6d3d1;
+            --text-tertiary: #a8a29e;
+            --border-subtle: #292524;
+            --border-emphasis: #44403c;
+            --accent-gold: #d4af6a;
+            --accent-gold-hover: #e5c175;
+            --accent-gold-subtle: #2c2618;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.4);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.6);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.7);
+        }
+
+        /* ====================================
+           BASE STYLES & TYPOGRAPHY
+           ==================================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        body {
+            font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-size: 16px;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background-color: var(--bg-primary);
+            transition: background-color 0.4s var(--transition-smooth), 
+                        color 0.4s var(--transition-smooth);
+        }
+
+        .font-display {
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            font-weight: 500;
+            letter-spacing: -0.01em;
+        }
+
+        .uppercase-tracked {
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            font-weight: 500;
+            font-size: 0.8125rem;
+        }
+
+        /* ====================================
+           NAVIGATION - STICKY & GLASS EFFECT
+           ==================================== */
+        .nav-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            transition: all 0.3s var(--transition-smooth);
+        }
+
+        .nav-container.scrolled {
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            background-color: rgba(253, 252, 250, 0.8);
+            border-bottom: 1px solid var(--border-subtle);
+            box-shadow: var(--shadow-sm);
+        }
+
+        [data-theme="dark"] .nav-container.scrolled {
+            background-color: rgba(15, 14, 13, 0.85);
+        }
+
+        .nav-inner {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1.25rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: opacity 0.3s var(--transition-smooth), 
+                        transform 0.3s var(--transition-smooth);
+        }
+
+        /* ANIMATION: Logo hover effect */
+        .nav-logo:hover {
+            opacity: 0.7;
+            transform: translateY(-1px);
+        }
+
+        .nav-links {
+            display: none;
+            gap: 2.5rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s var(--transition-smooth);
+            position: relative;
+            padding-bottom: 4px;
+        }
+
+        /* ANIMATION: Animated underline - left to right */
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background-color: var(--accent-gold);
+            transition: width 0.4s var(--transition-smooth);
+        }
+
+        .nav-link:hover {
+            color: var(--text-primary);
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .nav-link.active {
+            color: var(--accent-gold);
+        }
+
+        .nav-link.active::after {
+            width: 100%;
+        }
+
+        .nav-actions {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .theme-toggle {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.5rem;
+            color: var(--text-secondary);
+            transition: color 0.3s var(--transition-smooth), 
+                        transform 0.3s var(--transition-smooth);
+            display: flex;
+            align-items: center;
+        }
+
+        /* ANIMATION: Theme toggle hover */
+        .theme-toggle:hover {
+            color: var(--text-primary);
+            transform: rotate(15deg);
+        }
+
+        .mobile-menu-btn {
+            display: flex;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.5rem;
+            color: var(--text-primary);
+            transition: opacity 0.3s var(--transition-smooth);
+        }
+
+        .mobile-menu-btn:hover {
+            opacity: 0.7;
+        }
+
+        /* Mobile Navigation */
+        .mobile-nav {
+            position: fixed;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            width: 100%;
+            max-width: 400px;
+            background-color: var(--bg-elevated);
+            transform: translateX(100%);
+            transition: transform 0.4s var(--transition-smooth);
+            z-index: 2000;
+            box-shadow: var(--shadow-xl);
+            overflow-y: auto;
+        }
+
+        .mobile-nav.open {
+            transform: translateX(0);
+        }
+
+        .mobile-nav-header {
+            padding: 1.5rem 2rem;
+            border-bottom: 1px solid var(--border-subtle);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .mobile-nav-close {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.5rem;
+            color: var(--text-primary);
+            transition: transform 0.3s var(--transition-smooth);
+        }
+
+        .mobile-nav-close:hover {
+            transform: rotate(90deg);
+        }
+
+        .mobile-nav-links {
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .mobile-nav-link {
+            font-size: 1.125rem;
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: color 0.3s var(--transition-smooth), 
+                        transform 0.3s var(--transition-smooth);
+            padding: 0.5rem 0;
+        }
+
+        .mobile-nav-link:hover {
+            color: var(--accent-gold);
+            transform: translateX(4px);
+        }
+
+        .mobile-overlay {
+            position: fixed;
+            inset: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s var(--transition-smooth);
+            z-index: 1999;
+        }
+
+        .mobile-overlay.open {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* ====================================
+           HERO SECTION - CINEMATIC WITH PAGE LOAD ANIMATIONS
+           ==================================== */
+        .hero {
+            position: relative;
+            height: 100vh;
+            min-height: 600px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            background: linear-gradient(to bottom, #1c1917 0%, #292524 100%);
+        }
+
+        /* ANIMATION: Hero background fade-in on page load */
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+            background-image: 
+                linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.6) 100%),
+                url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080"%3E%3Crect fill="%232c2a28" width="1920" height="1080"/%3E%3Cpath fill="%233d3a37" d="M0 540L80 558.3C160 576.7 320 613.3 480 622C640 630.7 800 611.3 960 601.8C1120 592.3 1280 592.7 1360 592.8L1440 593L1440 1081L1360 1081C1280 1081 1120 1081 960 1081C800 1081 640 1081 480 1081C320 1081 160 1081 80 1081L0 1081Z"/%3E%3C/svg%3E');
+            background-size: cover;
+            background-position: center;
+            filter: grayscale(0.2);
+            opacity: 0;
+            animation: heroBackgroundFadeIn 1.2s var(--transition-smooth) forwards;
+        }
+
+        @keyframes heroBackgroundFadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            padding: 2rem;
+            max-width: 900px;
+        }
+
+        /* ANIMATION: Hero subtitle fade-in with delay */
+        .hero-subtitle {
+            color: var(--accent-gold);
+            margin-bottom: 1.5rem;
+            opacity: 0;
+            animation: fadeInUp 0.8s var(--transition-smooth) forwards 0.3s;
+        }
+
+        /* ANIMATION: Hero title slide up on page load */
+        .hero-title {
+            font-size: clamp(3rem, 8vw, 6.5rem);
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            color: #fafaf9;
+            opacity: 0;
+            animation: fadeInUp 0.8s var(--transition-smooth) forwards 0.5s;
+        }
+
+        /* ANIMATION: Hero description fade-in with delay */
+        .hero-description {
+            font-size: 1.125rem;
+            color: #d6d3d1;
+            margin-bottom: 2.5rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.7;
+            opacity: 0;
+            animation: fadeInUp 0.8s var(--transition-smooth) forwards 0.7s;
+        }
+
+        /* ANIMATION: Hero CTAs staggered fade + slide */
+        .hero-ctas {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            opacity: 0;
+            animation: fadeInUp 0.8s var(--transition-smooth) forwards 0.9s;
+        }
+
+        /* Core animation keyframe for hero elements */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ====================================
+           BUTTONS - REFINED INTERACTIONS WITH GLOW
+           ==================================== */
+        .btn {
+            display: inline-block;
+            padding: 0.875rem 2rem;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.4s var(--transition-smooth);
+            border: none;
+            cursor: pointer;
+            font-size: 0.9375rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* ANIMATION: Primary button with glow on hover */
+        .btn-primary {
+            background-color: var(--accent-gold);
+            color: #1c1917;
+            box-shadow: 0 4px 12px rgba(184, 152, 95, 0.2);
+        }
+
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at center, rgba(255, 255, 255, 0.2), transparent 70%);
+            opacity: 0;
+            transition: opacity 0.4s var(--transition-smooth);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--accent-gold-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(184, 152, 95, 0.35);
+        }
+
+        .btn-primary:hover::before {
+            opacity: 1;
+        }
+
+        /* ANIMATION: Secondary button smooth transition */
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--text-primary);
+            border: 1.5px solid var(--text-primary);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--text-primary);
+            color: var(--bg-primary);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        /* ANIMATION: Ghost button for hero */
+        .btn-ghost {
+            background-color: transparent;
+            color: #fafaf9;
+            border: 1.5px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .btn-ghost:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.6);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        /* ====================================
+           SECTIONS - EDITORIAL LAYOUT
+           ==================================== */
+        .section {
+            padding: 6rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-sm {
+            padding: 4rem 2rem;
+        }
+
+        .section-header {
+            max-width: 800px;
+            margin: 0 auto 4rem;
+            text-align: center;
+        }
+
+        .section-label {
+            color: var(--accent-gold);
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .section-title {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-description {
+            font-size: 1.125rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        /* ====================================
+           ABOUT SECTION - STORY-DRIVEN
+           ==================================== */
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .about-image-container {
+            position: relative;
+            aspect-ratio: 4/5;
+            overflow: hidden;
+            background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--border-subtle) 100%);
+        }
+
+        .about-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.85;
+            transition: transform 0.8s var(--transition-smooth), 
+                        opacity 0.6s var(--transition-smooth);
+        }
+
+        /* ANIMATION: Image scale on hover */
+        .about-image-container:hover .about-image {
+            transform: scale(1.05);
+            opacity: 1;
+        }
+
+        .about-content {
+            max-width: 600px;
+        }
+
+        .about-subtitle {
+            color: var(--accent-gold);
+            margin-bottom: 1rem;
+        }
+
+        .about-title {
+            font-size: clamp(2rem, 4vw, 3.5rem);
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+        }
+
+        .about-text {
+            font-size: 1.0625rem;
+            line-height: 1.8;
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+        }
+
+        .about-features {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            margin-top: 2.5rem;
+        }
+
+        .about-feature {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .about-feature-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .about-feature-text {
+            font-size: 0.9375rem;
+            color: var(--text-tertiary);
+            line-height: 1.6;
+        }
+
+        /* ====================================
+           MENU SECTION - TABBED WITH DEEP LINKING
+           ==================================== */
+        .menu-tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 3rem;
+            border-bottom: 1px solid var(--border-subtle);
+            overflow-x: auto;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        .menu-tabs::-webkit-scrollbar {
+            display: none;
+        }
+
+        .menu-tab {
+            padding: 1rem 1.5rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--text-secondary);
+            transition: all 0.3s var(--transition-smooth);
+            white-space: nowrap;
+            position: relative;
+            font-weight: 500;
+        }
+
+        /* ANIMATION: Tab underline */
+        .menu-tab::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background-color: var(--accent-gold);
+            transform: scaleX(0);
+            transition: transform 0.4s var(--transition-smooth);
+        }
+
+        .menu-tab.active {
+            color: var(--accent-gold);
+        }
+
+        .menu-tab.active::after {
+            transform: scaleX(1);
+        }
+
+        .menu-tab:hover {
+            color: var(--text-primary);
+        }
+
+        .menu-section {
+            display: none;
+        }
+
+        .menu-section.active {
+            display: grid;
+            gap: 3rem;
+        }
+
+        /* ANIMATION: Menu section fade in/out */
+        .menu-section.fade-out {
+            animation: menuFadeOut 0.3s var(--transition-smooth) forwards;
+        }
+
+        .menu-section.fade-in {
+            animation: menuFadeIn 0.4s var(--transition-smooth) forwards;
+        }
+
+        @keyframes menuFadeOut {
+            from {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            to {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+        }
+
+        @keyframes menuFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .menu-category {
+            border-bottom: 1px solid var(--border-subtle);
+            padding-bottom: 2rem;
+        }
+
+        .menu-category:last-child {
+            border-bottom: none;
+        }
+
+        .menu-category-title {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            color: var(--text-primary);
+        }
+
+        .menu-items {
+            display: grid;
+            gap: 2rem;
+        }
+
+        /* ANIMATION: Menu items slide up + fade on tab switch */
+        .menu-item {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 1rem;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s var(--transition-smooth), 
+                        transform 0.5s var(--transition-smooth);
+        }
+
+        .menu-item.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .menu-item-content {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .menu-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            gap: 1rem;
+        }
+
+        .menu-item-name {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            transition: color 0.3s var(--transition-smooth);
+        }
+
+        .menu-item:hover .menu-item-name {
+            color: var(--accent-gold);
+        }
+
+        .menu-item-description {
+            font-size: 0.9375rem;
+            color: var(--text-tertiary);
+            line-height: 1.6;
+        }
+
+        .menu-item-price {
+            font-weight: 600;
+            color: var(--accent-gold);
+            white-space: nowrap;
+        }
+
+        /* ====================================
+           CHEF/CRAFT SECTION - CREDIBILITY
+           ==================================== */
+        .chef-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .chef-image-wrapper {
+            position: relative;
+            aspect-ratio: 3/4;
+            overflow: hidden;
+            background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--border-subtle) 100%);
+        }
+
+        .chef-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(0.3);
+            transition: all 0.8s var(--transition-smooth);
+        }
+
+        /* ANIMATION: Chef image hover effect */
+        .chef-image-wrapper:hover .chef-image {
+            filter: grayscale(0);
+            transform: scale(1.03);
+        }
+
+        .chef-content {
+            max-width: 600px;
+        }
+
+        .chef-role {
+            color: var(--accent-gold);
+            margin-bottom: 1rem;
+        }
+
+        .chef-name {
+            font-size: clamp(2rem, 4vw, 3rem);
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+        }
+
+        .chef-bio {
+            font-size: 1.0625rem;
+            line-height: 1.8;
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+        }
+
+        .chef-credentials {
+            display: grid;
+            gap: 1.5rem;
+            margin-top: 2rem;
+            padding: 2rem;
+            background-color: var(--bg-secondary);
+            border-left: 3px solid var(--accent-gold);
+            transition: transform 0.3s var(--transition-smooth), 
+                        box-shadow 0.3s var(--transition-smooth);
+        }
+
+        .chef-credentials:hover {
+            transform: translateX(4px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .credential-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .credential-label {
+            font-size: 0.8125rem;
+            color: var(--text-tertiary);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .credential-value {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        /* ====================================
+           GALLERY - MASONRY STYLE
+           ==================================== */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .gallery-item {
+            position: relative;
+            aspect-ratio: 1;
+            overflow: hidden;
+            background: var(--bg-secondary);
+            cursor: pointer;
+        }
+
+        .gallery-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.7s var(--transition-smooth);
+        }
+
+        /* ANIMATION: Gallery image scale on hover */
+        .gallery-item:hover .gallery-image {
+            transform: scale(1.08);
+        }
+
+        .gallery-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 50%);
+            opacity: 0;
+            transition: opacity 0.4s var(--transition-smooth);
+            display: flex;
+            align-items: flex-end;
+            padding: 1.5rem;
+        }
+
+        /* ANIMATION: Gallery overlay fade in */
+        .gallery-item:hover .gallery-overlay {
+            opacity: 1;
+        }
+
+        .gallery-caption {
+            color: white;
+            font-size: 0.9375rem;
+            transform: translateY(10px);
+            transition: transform 0.4s var(--transition-smooth) 0.1s;
+        }
+
+        .gallery-item:hover .gallery-caption {
+            transform: translateY(0);
+        }
+
+        /* ====================================
+           TESTIMONIALS - SOCIAL PROOF
+           ==================================== */
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .testimonial-card {
+            padding: 2.5rem;
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-subtle);
+            transition: all 0.4s var(--transition-smooth);
+        }
+
+        /* ANIMATION: Testimonial card lift on hover */
+        .testimonial-card:hover {
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--accent-gold);
+        }
+
+        .testimonial-stars {
+            color: var(--accent-gold);
+            margin-bottom: 1.5rem;
+            font-size: 1.125rem;
+        }
+
+        .testimonial-text {
+            font-size: 1.0625rem;
+            line-height: 1.7;
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            font-style: italic;
+        }
+
+        .testimonial-author {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .testimonial-name {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .testimonial-source {
+            font-size: 0.875rem;
+            color: var(--text-tertiary);
+        }
+
+        /* ====================================
+           RESERVATION CTA - HIGH PRIORITY
+           ==================================== */
+        .reservation-cta {
+            background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-elevated) 100%);
+            padding: 6rem 2rem;
+            text-align: center;
+            border-top: 1px solid var(--border-subtle);
+            border-bottom: 1px solid var(--border-subtle);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Subtle animated glow effect */
+        .reservation-cta::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(184, 152, 95, 0.05) 0%, transparent 60%);
+            animation: reservationGlow 8s ease-in-out infinite;
+        }
+
+        @keyframes reservationGlow {
+            0%, 100% {
+                transform: translate(0, 0) scale(1);
+            }
+            50% {
+                transform: translate(10%, 10%) scale(1.1);
+            }
+        }
+
+        .reservation-content {
+            max-width: 700px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .reservation-title {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+        }
+
+        .reservation-text {
+            font-size: 1.125rem;
+            color: var(--text-secondary);
+            margin-bottom: 2.5rem;
+            line-height: 1.7;
+        }
+
+        .reservation-note {
+            font-size: 0.875rem;
+            color: var(--text-tertiary);
+            margin-top: 1.5rem;
+        }
+
+        /* ====================================
+           CONTACT & FOOTER
+           ==================================== */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 3rem;
+        }
+
+        .contact-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .contact-label {
+            color: var(--accent-gold);
+            font-size: 0.8125rem;
+        }
+
+        .contact-value {
+            font-size: 1.125rem;
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        .contact-value a {
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: color 0.3s var(--transition-smooth);
+        }
+
+        .contact-value a:hover {
+            color: var(--accent-gold);
+        }
+
+        .map-container {
+            margin-top: 4rem;
+            height: 400px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-subtle);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-tertiary);
+            transition: border-color 0.3s var(--transition-smooth);
+        }
+
+        .map-container:hover {
+            border-color: var(--accent-gold);
+        }
+
+        .footer {
+            background-color: var(--bg-secondary);
+            padding: 3rem 2rem 2rem;
+            border-top: 1px solid var(--border-subtle);
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .footer-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 2rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .footer-brand {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s var(--transition-smooth), 
+                        transform 0.3s var(--transition-smooth);
+            display: inline-block;
+        }
+
+        .footer-link:hover {
+            color: var(--accent-gold);
+            transform: translateY(-2px);
+        }
+
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            font-size: 0.875rem;
+            color: var(--text-tertiary);
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .footer-social a {
+            color: var(--text-secondary);
+            transition: color 0.3s var(--transition-smooth), 
+                        transform 0.3s var(--transition-smooth);
+            display: inline-block;
+        }
+
+        .footer-social a:hover {
+            color: var(--accent-gold);
+            transform: translateY(-2px);
+        }
+
+        /* ====================================
+           SCROLL REVEAL ANIMATIONS - INTERSECTION OBSERVER
+           ==================================== */
+        .scroll-reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s var(--transition-smooth), 
+                        transform 0.8s var(--transition-smooth);
+        }
+
+        .scroll-reveal.revealed {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Staggered delays for multiple elements */
+        .scroll-reveal-delay-1 {
+            transition-delay: 0.1s;
+        }
+
+        .scroll-reveal-delay-2 {
+            transition-delay: 0.2s;
+        }
+
+        .scroll-reveal-delay-3 {
+            transition-delay: 0.3s;
+        }
+
+        /* ANIMATION: Scroll reveal with scale for images */
+        .scroll-reveal-scale {
+            opacity: 0;
+            transform: scale(0.95);
+            transition: opacity 0.8s var(--transition-smooth), 
+                        transform 0.8s var(--transition-smooth);
+        }
+
+        .scroll-reveal-scale.revealed {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* ====================================
+           RESPONSIVE DESIGN
+           ==================================== */
+        @media (min-width: 768px) {
+            .nav-links {
+                display: flex;
+            }
+
+            .mobile-menu-btn {
+                display: none;
+            }
+
+            .about-grid,
+            .chef-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .chef-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .chef-grid .chef-content {
+                order: -1;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .section {
+                padding: 8rem 2rem;
+            }
+
+            .gallery-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        /* ====================================
+           ACCESSIBILITY - REDUCED MOTION
+           ==================================== */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border-width: 0;
+        }
+
+        *:focus-visible {
+            outline: 2px solid var(--accent-gold);
+            outline-offset: 2px;
+        }
+
+        /* CRITICAL: Respect user preference for reduced motion */
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
+            
+            .hero-bg,
+            .hero-subtitle,
+            .hero-title,
+            .hero-description,
+            .hero-ctas {
+                animation: none !important;
+                opacity: 1 !important;
+                transform: none !important;
+            }
+        }
+
+        /* ====================================
+           PERFORMANCE OPTIMIZATIONS
+           ==================================== */
+        img {
+            content-visibility: auto;
+        }
+
+        /* Will-change for elements that animate frequently */
+        .btn,
+        .nav-link::after,
+        .menu-tab::after,
+        .gallery-image {
+            will-change: transform;
+        }
+        @media (max-width: 768px) {
+            .map-responsive-container {
+                padding-bottom: 0;
+                height: 300px; /* Fixed height on mobile */
+            }
+        }
+        .map-responsive-wrapper {
+            width: 100%;
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+    
+        /* Responsive Map Container - Maintains Aspect Ratio */
+        .map-responsive-container {
+            position: relative;
+            width: 100%;
+            padding-bottom: 34.62%; /* Aspect ratio: 450/1300 = 34.62% */
+            height: 0;
+            overflow: hidden;
+            background: var(--bg-secondary);
+            border-radius: 4px;
+            box-shadow: var(--shadow-sm);
+        }
+    
+        .map-responsive-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+    
+        /* Mobile Optimizations */
+        @media (max-width: 768px) {
+            .map-responsive-wrapper {
+                padding: 0 0.5rem;
+            }
+            
+            .map-responsive-container {
+                padding-bottom: 75%; /* Taller aspect ratio for mobile (3:4) */
+                border-radius: 0;
+            }
+        }
+    
+        /* Tablet Optimizations */
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .map-responsive-container {
+                padding-bottom: 50%; /* Medium aspect ratio for tablets (2:1) */
+            }
+        }
+    
+        /* Large Desktop */
+        @media (min-width: 1301px) {
+            .map-responsive-wrapper {
+                max-width: 1400px;
+            }
+        }
+    
+        /* Accessibility - Reduced Motion */
+        @media (prefers-reduced-motion: reduce) {
+            .map-responsive-container iframe {
+                animation: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- ====================================
+         NAVIGATION
+         ==================================== -->
+    <nav class="nav-container" id="navbar">
+        <div class="nav-inner">
+            <a href="#home" class="nav-logo font-display">Blackwood</a>
+            
+            <div class="nav-links">
+                <a href="#about" class="nav-link uppercase-tracked">About</a>
+                <a href="#menu" class="nav-link uppercase-tracked">Menu</a>
+                <a href="#chef" class="nav-link uppercase-tracked">Chef</a>
+                <a href="#gallery" class="nav-link uppercase-tracked">Gallery</a>
+                <a href="#contact" class="nav-link uppercase-tracked">Contact</a>
+            </div>
+
+            <div class="nav-actions">
+                <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">
+                    <svg id="sun-icon" width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"/>
+                    </svg>
+                    <svg id="moon-icon" width="20" height="20" viewBox="0 0 20 20" fill="currentColor" style="display: none;">
+                        <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"/>
+                    </svg>
+                </button>
+                
+                <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Open menu">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="3" y1="12" x2="21" y2="12"></line>
+                        <line x1="3" y1="6" x2="21" y2="6"></line>
+                        <line x1="3" y1="18" x2="21" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Navigation -->
+    <div class="mobile-overlay" id="mobile-overlay"></div>
+    <div class="mobile-nav" id="mobile-nav">
+        <div class="mobile-nav-header">
+            <span class="font-display" style="font-size: 1.5rem; font-weight: 600;">Blackwood</span>
+            <button class="mobile-nav-close" id="mobile-nav-close" aria-label="Close menu">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+        </div>
+        <div class="mobile-nav-links">
+            <a href="#home" class="mobile-nav-link uppercase-tracked">Home</a>
+            <a href="#about" class="mobile-nav-link uppercase-tracked">About</a>
+            <a href="#menu" class="mobile-nav-link uppercase-tracked">Menu</a>
+            <a href="#chef" class="mobile-nav-link uppercase-tracked">Chef</a>
+            <a href="#gallery" class="mobile-nav-link uppercase-tracked">Gallery</a>
+            <a href="#contact" class="mobile-nav-link uppercase-tracked">Contact</a>
+            <div style="margin-top: 2rem; padding-top: 2rem; border-top: 1px solid var(--border-subtle);">
+                <a href="#reserve" class="btn btn-primary" style="width: 100%; text-align: center;">Reserve a Table</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- ====================================
+         HERO SECTION - WITH PAGE LOAD ANIMATIONS
+         ==================================== -->
+    <section class="hero" id="home">
+        <div class="hero-bg"></div>
+        <div class="hero-content">
+            <span class="hero-subtitle uppercase-tracked">Modern American Cuisine</span>
+            <h1 class="hero-title font-display">Craft & Heritage<br>in Every Dish</h1>
+            <p class="hero-description">
+                Experience refined dining where seasonal ingredients meet time-honored techniques. Located in the heart of Manhattan's West Village.
+            </p>
+            <div class="hero-ctas">
+                <a href="#reserve" class="btn btn-primary uppercase-tracked">Reserve Your Table</a>
+                <a href="#menu" class="btn btn-ghost uppercase-tracked">View Menu</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ====================================
+         ABOUT SECTION
+         ==================================== -->
+    <section class="section" id="about">
+        <div class="about-grid">
+            <div class="about-image-container scroll-reveal scroll-reveal-scale">
+                <div style="width: 100%; height: 100%; background: linear-gradient(135deg, #3d3a37 0%, #2c2a28 100%); display: flex; align-items: center; justify-content: center; color: #78716c; padding: 2rem; text-align: center; font-size: 0.875rem;" class="about-image">
+                    Restaurant Interior
+                </div>
+            </div>
+            <div class="about-content scroll-reveal scroll-reveal-delay-1">
+                <span class="about-subtitle uppercase-tracked">Our Story</span>
+                <h2 class="about-title font-display">Where Tradition Meets Innovation</h2>
+                <p class="about-text">
+                    Since 2012, Blackwood has been a cornerstone of Manhattan's culinary landscape. We believe in the power of ingredients sourced at their peak, prepared with precision, and served with genuine hospitality.
+                </p>
+                <p class="about-text">
+                    Our kitchen operates on the principles of classical French technique refined through decades of experience, yet we remain constantly inspired by the diverse flavors that make New York unique.
+                </p>
+                <div class="about-features">
+                    <div class="about-feature">
+                        <h3 class="about-feature-title">Seasonal Menus</h3>
+                        <p class="about-feature-text">Our menu changes quarterly, reflecting the finest ingredients available each season.</p>
+                    </div>
+                    <div class="about-feature">
+                        <h3 class="about-feature-title">Local Partnerships</h3>
+                        <p class="about-feature-text">We work directly with farms in the Hudson Valley and fishermen from Long Island.</p>
+                    </div>
+                    <div class="about-feature">
+                        <h3 class="about-feature-title">Wine Program</h3>
+                        <p class="about-feature-text">Curated selection of 300+ bottles, emphasizing small producers and natural wines.</p>
+                    </div>
+                    <div class="about-feature">
+                        <h3 class="about-feature-title">Private Dining</h3>
+                        <p class="about-feature-text">Intimate spaces for gatherings from 10 to 40 guests with customized menus.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ====================================
+         MENU SECTION
+         ==================================== -->
+    <section class="section" id="menu" style="background-color: var(--bg-secondary);">
+        <div class="section-header scroll-reveal">
+            <span class="section-label uppercase-tracked">Seasonal Selection</span>
+            <h2 class="section-title font-display">Our Menu</h2>
+            <p class="section-description">
+                A celebration of ingredients at their peak, prepared with care and presented with elegance.
+            </p>
+        </div>
+
+        <div class="menu-tabs" role="tablist">
+            <button class="menu-tab uppercase-tracked active" data-tab="dinner" role="tab" aria-selected="true">Dinner</button>
+            <button class="menu-tab uppercase-tracked" data-tab="lunch" role="tab" aria-selected="false">Lunch</button>
+            <button class="menu-tab uppercase-tracked" data-tab="brunch" role="tab" aria-selected="false">Weekend Brunch</button>
+            <button class="menu-tab uppercase-tracked" data-tab="drinks" role="tab" aria-selected="false">Wine & Cocktails</button>
+        </div>
+
+        <!-- Dinner Menu -->
+        <div class="menu-section active" id="dinner" role="tabpanel">
+            <div class="menu-category">
+                <h3 class="menu-category-title font-display">First Course</h3>
+                <div class="menu-items">
+                    <div class="menu-item">
+                        <div class="menu-item-content">
+                            <div class="menu-item-header">
+                                <h4 class="menu-item-name">Hudson Valley Foie Gras</h4>
+                            </div>
+                            <p class="menu-item-description">
+                                Apple gastrique, brioche, pickled rhubarb
+                            </p>
+                        </div>
+                        <span class="menu-item-price">28</span>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-content">
+                            <div class="menu-item-header">
+                                <h4 class="menu-item-name">Maine Diver Scallops</h4>
+                            </div>
+                            <p class="menu-item-description">
+                                Cauliflower purée, golden raisins, hazelnuts, brown butter
+                            </p>
+                        </div>
+                        <span class="menu-item-price">32</span>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-content">
+                            <div class="menu-item-header">
+                                <h4 class="menu-item-name">Heirloom Tomato Salad</h4>
+                            </div>
+                            <p class="menu-item-description">
+                                Burrata, basil oil, aged balsamic, sourdough crisps
+                            </p>
+                        </div>
+                        <span class="menu-item-price">24</span>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-content">
+                            <div class="menu-item-header">
+                                <h4 class="menu-item-name">Beef Tartare</h4>
+                            </div>
+                            <p class="menu-item-description">
+                                Quail egg, capers, shallots, grilled sourdough
+                            </p>
+                        </div>
+                        <span class="menu-item-price">26</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="menu-category">
+                <h3 class="menu-category-title font-display">Main Course</h3>
+                <div class="menu-items">
+                    <div class="menu-item">
+                        <div class="menu-item-content">
+                            <div class="menu-item-header">
+                                <h4 class="menu-item-name">Roasted Duck Breast</h4>
+                            </div>
+                            <p class="menu-item-description">
+                                Fingerling potatoes, braised endive, cherry gastrique
+                            </p>
+                        </div>
+                        <span class="menu-item-price">48</span>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-content">
+                            <div class="menu-item-header">
+                                <h4 class="menu-item-name">Dry-Aged Ribeye</h4>
+                            </div>
+                            <p class="menu-item-description">
+                                45-day aged, bone marrow butter, roasted shallots, frites
+                            </p>
+                        </div>
+                        <span class="menu-item-price">68</span>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-content">
+                            <div class="menu-item-header">
+                                <h4 class="menu-item-name">Wild Striped Bass</h4>
+                            </div>
+                            <p class="menu-item-description">
+                                Saffron risotto, grilled asparagus, lemon beurre blanc
+                            </p>
+                        </div>
+                        <span class="menu-item-price">52</span>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-content">
+                            <div class="menu-item-header">
+                                <h4 class="menu-item-name">Mushroom Ravioli</h4>
+                            </div>
+                            <p class="menu-item-description">
+                                Wild mushrooms, truffle cream, parmigiano, chives
+                            </p>
+                        </div>
+                        <span class="menu-item-price">38</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="menu-category">
+                <h3 class="menu-category-title font-display">Dessert</h3>
+                <div class="menu-items">
+                    <div class="menu-item">
+                        <div class="menu-item-content">
+                            <div class="menu-item-header">
+                                <h4 class="menu-item-name">Dark Chocolate Soufflé</h4>
+                            </div>
+                            <p class="menu-item-description">
+                                Vanilla bean ice cream, raspberry coulis
+                            </p>
+                        </div>
+                        <span class="menu-item-price">16</span>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-content">
+                            <div class="menu-item-header">
+                                <h4 class="menu-item-name">Seasonal Tart</h4>
+                            </div>
+                            <p class="menu-item-description">
+                                Chef's selection, pastry cream, fresh fruit
+                            </p>
+                        </div>
+                        <span class="menu-item-price">14</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Lunch Menu -->
+        <div class="menu-section" id="lunch" role="tabpanel">
+            <div class="menu-category">
+                <h3 class="menu-category-title font-display">Lunch Selections</h3>
+                <div class="menu-items">
+                    <div class="menu-item">
+                        <div class="menu-item-content">
+                            <div class="menu-item-header">
+                                <h4 class="menu-item-name">Grilled Salmon Niçoise</h4>
+                            </div>
+                            <p class="menu-item-description">
+                                Haricots verts, soft egg, olives, fingerlings, lemon vinaigrette
+                            </p>
+                        </div>
+                        <span class="menu-item-price">28</span>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-content">
+                            <div class="menu-item-header">
+                                <h4 class="menu-item-name">Blackwood Burger</h4>
+                            </div>
+                            <p class="menu-item-description">
+                                Double patty, aged cheddar, bacon jam, frites
+                            </p>
+                        </div>
+                        <span class="menu-item-price">24</span>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-content">
+                            <div class="menu-item-header">
+                                <h4 class="menu-item-name">Roasted Chicken</h4>
+                            </div>
+                            <p class="menu-item-description">
+                                Half bird, roasted vegetables, natural jus
+                            </p>
+                        </div>
+                        <span class="menu-item-price">32</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Brunch Menu -->
+        <div class="menu-section" id="brunch" role="tabpanel">
+            <div class="menu-category">
+                <h3 class="menu-category-title font-display">Weekend Brunch</h3>
+                <div class="menu-items">
+                    <div class="menu-item">
+                        <div class="menu-item-content">
+                            <div class="menu-item-header">
+                                <h4 class="menu-item-name">Eggs Benedict</h4>
+                            </div>
+                            <p class="menu-item-description">
+                                Poached eggs, Canadian bacon, hollandaise, English muffin
+                            </p>
+                        </div>
+                        <span class="menu-item-price">22</span>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-content">
+                            <div class="menu-item-header">
+                                <h4 class="menu-item-name">Brioche French Toast</h4>
+                            </div>
+                            <p class="menu-item-description">
+                                Caramelized bananas, maple syrup, whipped cream
+                            </p>
+                        </div>
+                        <span class="menu-item-price">18</span>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-content">
+                            <div class="menu-item-header">
+                                <h4 class="menu-item-name">Steak & Eggs</h4>
+                            </div>
+                            <p class="menu-item-description">
+                                Hanger steak, two eggs any style, breakfast potatoes
+                            </p>
+                        </div>
+                        <span class="menu-item-price">32</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Drinks Menu -->
+        <div class="menu-section" id="drinks" role="tabpanel">
+            <div class="menu-category">
+                <h3 class="menu-category-title font-display">Signature Cocktails</h3>
+                <div class="menu-items">
+                    <div class="menu-item">
+                        <div class="menu-item-content">
+                            <div class="menu-item-header">
+                                <h4 class="menu-item-name">Manhattan Sour</h4>
+                            </div>
+                            <p class="menu-item-description">
+                                Rye whiskey, lemon, egg white, red wine float
+                            </p>
+                        </div>
+                        <span class="menu-item-price">18</span>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-content">
+                            <div class="menu-item-header">
+                                <h4 class="menu-item-name">Blackwood Martini</h4>
+                            </div>
+                            <p class="menu-item-description">
+                                House-infused gin, dry vermouth, expressed lemon
+                            </p>
+                        </div>
+                        <span class="menu-item-price">19</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="menu-category">
+                <h3 class="menu-category-title font-display">Wine by the Glass</h3>
+                <div class="menu-items">
+                    <div class="menu-item">
+                        <div class="menu-item-content">
+                            <div class="menu-item-header">
+                                <h4 class="menu-item-name">Champagne, Brut</h4>
+                            </div>
+                            <p class="menu-item-description">
+                                Taittinger, Reims, France
+                            </p>
+                        </div>
+                        <span class="menu-item-price">24</span>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-content">
+                            <div class="menu-item-header">
+                                <h4 class="menu-item-name">Pinot Noir</h4>
+                            </div>
+                            <p class="menu-item-description">
+                                Flowers, Sonoma Coast, California
+                            </p>
+                        </div>
+                        <span class="menu-item-price">22</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ====================================
+         CHEF SECTION
+         ==================================== -->
+    <section class="section" id="chef">
+        <div class="chef-grid">
+            <div class="chef-content scroll-reveal">
+                <span class="chef-role uppercase-tracked">Executive Chef</span>
+                <h2 class="chef-name font-display">Marcus Chen</h2>
+                <p class="chef-bio">
+                    Chef Marcus Chen brings over twenty years of culinary expertise to Blackwood, having trained under luminaries in Paris, Tokyo, and New York. His approach combines classical technique with a modern sensibility, always letting the ingredients lead.
+                </p>
+                <p class="chef-bio">
+                    Before joining Blackwood, Chef Chen earned a Michelin star at Lumière in San Francisco and served as Sous Chef at Le Bernardin. His philosophy is simple: respect the ingredient, honor the season, and serve with integrity.
+                </p>
+                <div class="chef-credentials">
+                    <div class="credential-item">
+                        <span class="credential-label">Recognition</span>
+                        <span class="credential-value">James Beard Award Nominee, 2019–2023</span>
+                    </div>
+                    <div class="credential-item">
+                        <span class="credential-label">Training</span>
+                        <span class="credential-value">Le Cordon Bleu Paris, Culinary Institute of America</span>
+                    </div>
+                    <div class="credential-item">
+                        <span class="credential-label">Previous Roles</span>
+                        <span class="credential-value">Lumière SF (Michelin ★), Le Bernardin NYC</span>
+                    </div>
+                </div>
+            </div>
+            <div class="chef-image-wrapper scroll-reveal scroll-reveal-delay-1 scroll-reveal-scale">
+                <div style="width: 100%; height: 100%; background: linear-gradient(135deg, #3d3a37 0%, #2c2a28 100%); display: flex; align-items: center; justify-content: center; color: #78716c; padding: 2rem; text-align: center; font-size: 0.875rem;" class="chef-image">
+                    Chef Marcus Chen
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ====================================
+         GALLERY
+         ==================================== -->
+    <section class="section section-sm" id="gallery" style="background-color: var(--bg-secondary);">
+        <div class="section-header scroll-reveal">
+            <span class="section-label uppercase-tracked">Experience</span>
+            <h2 class="section-title font-display">Gallery</h2>
+        </div>
+
+        <div class="gallery-grid">
+            <div class="gallery-item scroll-reveal">
+                <div style="width: 100%; height: 100%; background: linear-gradient(135deg, #44403c 0%, #3d3a37 100%); display: flex; align-items: center; justify-content: center; color: #78716c; font-size: 0.875rem;" class="gallery-image">
+                    Plated Dish
+                </div>
+                <div class="gallery-overlay">
+                    <span class="gallery-caption">Seasonal tasting menu</span>
+                </div>
+            </div>
+            <div class="gallery-item scroll-reveal scroll-reveal-delay-1">
+                <div style="width: 100%; height: 100%; background: linear-gradient(135deg, #3d3a37 0%, #2c2a28 100%); display: flex; align-items: center; justify-content: center; color: #78716c; font-size: 0.875rem;" class="gallery-image">
+                    Dining Room
+                </div>
+                <div class="gallery-overlay">
+                    <span class="gallery-caption">Intimate dining space</span>
+                </div>
+            </div>
+            <div class="gallery-item scroll-reveal scroll-reveal-delay-2">
+                <div style="width: 100%; height: 100%; background: linear-gradient(135deg, #2c2a28 0%, #1c1917 100%); display: flex; align-items: center; justify-content: center; color: #78716c; font-size: 0.875rem;" class="gallery-image">
+                    Bar Area
+                </div>
+                <div class="gallery-overlay">
+                    <span class="gallery-caption">Full service bar</span>
+                </div>
+            </div>
+            <div class="gallery-item scroll-reveal">
+                <div style="width: 100%; height: 100%; background: linear-gradient(135deg, #44403c 0%, #3d3a37 100%); display: flex; align-items: center; justify-content: center; color: #78716c; font-size: 0.875rem;" class="gallery-image">
+                    Kitchen View
+                </div>
+                <div class="gallery-overlay">
+                    <span class="gallery-caption">Open kitchen</span>
+                </div>
+            </div>
+            <div class="gallery-item scroll-reveal scroll-reveal-delay-1">
+                <div style="width: 100%; height: 100%; background: linear-gradient(135deg, #3d3a37 0%, #2c2a28 100%); display: flex; align-items: center; justify-content: center; color: #78716c; font-size: 0.875rem;" class="gallery-image">
+                    Wine Cellar
+                </div>
+                <div class="gallery-overlay">
+                    <span class="gallery-caption">300+ bottle collection</span>
+                </div>
+            </div>
+            <div class="gallery-item scroll-reveal scroll-reveal-delay-2">
+                <div style="width: 100%; height: 100%; background: linear-gradient(135deg, #2c2a28 0%, #1c1917 100%); display: flex; align-items: center; justify-content: center; color: #78716c; font-size: 0.875rem;" class="gallery-image">
+                    Dessert
+                </div>
+                <div class="gallery-overlay">
+                    <span class="gallery-caption">Pastry program</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ====================================
+         TESTIMONIALS
+         ==================================== -->
+    <section class="section section-sm">
+        <div class="section-header scroll-reveal">
+            <span class="section-label uppercase-tracked">Praise</span>
+            <h2 class="section-title font-display">What Our Guests Say</h2>
+        </div>
+
+        <div class="testimonials-grid">
+            <div class="testimonial-card scroll-reveal">
+                <div class="testimonial-stars">★★★★★</div>
+                <p class="testimonial-text">
+                    "An exceptional dining experience from start to finish. Chef Chen's tasting menu was a masterclass in balance and technique. Each course built upon the last with perfect pacing."
+                </p>
+                <div class="testimonial-author">
+                    <span class="testimonial-name">Sarah Mitchell</span>
+                    <span class="testimonial-source">New York Times</span>
+                </div>
+            </div>
+
+            <div class="testimonial-card scroll-reveal scroll-reveal-delay-1">
+                <div class="testimonial-stars">★★★★★</div>
+                <p class="testimonial-text">
+                    "Blackwood is the epitome of refined New York dining. The wine program is outstanding, and the service team demonstrates genuine hospitality that's become rare in fine dining."
+                </p>
+                <div class="testimonial-author">
+                    <span class="testimonial-name">James Rodriguez</span>
+                    <span class="testimonial-source">Wine Spectator</span>
+                </div>
+            </div>
+
+            <div class="testimonial-card scroll-reveal scroll-reveal-delay-2">
+                <div class="testimonial-stars">★★★★★</div>
+                <p class="testimonial-text">
+                    "A neighborhood gem that transcends the typical restaurant experience. The attention to sourcing and seasonality is evident in every dish. This is cooking with purpose."
+                </p>
+                <div class="testimonial-author">
+                    <span class="testimonial-name">Elena Vasquez</span>
+                    <span class="testimonial-source">Eater NY</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ====================================
+         RESERVATION CTA
+         ==================================== -->
+    <section class="reservation-cta" id="reserve">
+        <div class="reservation-content scroll-reveal">
+            <h2 class="reservation-title font-display">Reserve Your Experience</h2>
+            <p class="reservation-text">
+                We accept reservations up to 60 days in advance. Walk-ins welcome at the bar on a first-come basis.
+            </p>
+            <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                <a href="tel:+12125551234" class="btn btn-primary uppercase-tracked">Call to Reserve</a>
+                <a href="https://www.opentable.com" target="_blank" rel="noopener" class="btn btn-secondary uppercase-tracked">Book on OpenTable</a>
+            </div>
+            <p class="reservation-note">
+                For parties of 8 or more, please contact us directly at reservations@blackwoodnyc.com
+            </p>
+        </div>
+    </section>
+
+    <!-- ====================================
+         CONTACT
+         ==================================== -->
+    <section class="section" id="contact">
+        <div class="section-header scroll-reveal">
+            <span class="section-label uppercase-tracked">Visit Us</span>
+            <h2 class="section-title font-display">Contact & Location</h2>
+        </div>
+
+        <div class="contact-grid scroll-reveal scroll-reveal-delay-1">
+            <div class="contact-item">
+                <span class="contact-label uppercase-tracked">Address</span>
+                <div class="contact-value">
+                    152 West 10th Street<br>
+                    New York, NY 10014
+                </div>
+            </div>
+
+            <div class="contact-item">
+                <span class="contact-label uppercase-tracked">Hours</span>
+                <div class="contact-value">
+                    Lunch: Tue–Fri 12–3pm<br>
+                    Dinner: Tue–Sat 5:30–10pm<br>
+                    Brunch: Sat–Sun 11am–3pm<br>
+                    Closed Mondays
+                </div>
+            </div>
+
+            <div class="contact-item">
+                <span class="contact-label uppercase-tracked">Contact</span>
+                <div class="contact-value">
+                    <a href="tel:+12125551234">(212) 555-1234</a><br>
+                    <a href="mailto:info@blackwoodnyc.com">info@blackwoodnyc.com</a>
+                </div>
+            </div>
+
+            <div class="contact-item">
+                <span class="contact-label uppercase-tracked">Getting Here</span>
+                <div class="contact-value">
+                    Subway: 1, 2, 3 to 14th St<br>
+                    Parking: Valet available<br>
+                    Street parking nearby
+                </div>
+            </div>
+        </div>
+
+        <div class="map-responsive-wrapper">
+            <div class="map-responsive-container">
+                <iframe 
+                    src="https://www.google.com/maps/embed/v1/place?q=Barbarestan%2Cgeorgia&key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8"
+                    style="border:0;" 
+                    allowfullscreen="" 
+                    loading="lazy" 
+                    referrerpolicy="no-referrer-when-downgrade"
+                    title="Restaurant Location Map">
+                </iframe>
+            </div>
+        </div>
+    </section>
+
+    <!-- ====================================
+         FOOTER
+         ==================================== -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-top">
+                <div class="footer-brand font-display">Blackwood</div>
+                <nav class="footer-links">
+                    <a href="#about" class="footer-link uppercase-tracked">About</a>
+                    <a href="#menu" class="footer-link uppercase-tracked">Menu</a>
+                    <a href="#chef" class="footer-link uppercase-tracked">Chef</a>
+                    <a href="#contact" class="footer-link uppercase-tracked">Contact</a>
+                   
+                </nav>
+            </div>
+            <div class="footer-bottom">
+                <div>
+                    <p>© 2024 Blackwood. All rights reserved.</p>
+                </div>
+                <div class="footer-social">
+                    <a href="#" aria-label="Instagram">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                        </svg>
+                    </a>
+                    <a href="#" aria-label="Facebook">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ====================================
+         JAVASCRIPT - ENHANCED WITH PREMIUM ANIMATIONS
+         ==================================== -->
+    <script>
+        // ====================================
+        // THEME MANAGEMENT
+        // ====================================
+        const themeToggle = document.getElementById('theme-toggle');
+        const sunIcon = document.getElementById('sun-icon');
+        const moonIcon = document.getElementById('moon-icon');
+
+        function initTheme() {
+            const savedTheme = localStorage.getItem('theme');
+            const systemPreference = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+            const theme = savedTheme || systemPreference;
+            
+            applyTheme(theme);
+        }
+
+        function applyTheme(theme) {
+            document.documentElement.setAttribute('data-theme', theme);
+            
+            if (theme === 'dark') {
+                sunIcon.style.display = 'none';
+                moonIcon.style.display = 'block';
+            } else {
+                sunIcon.style.display = 'block';
+                moonIcon.style.display = 'none';
+            }
+        }
+
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            applyTheme(newTheme);
+            localStorage.setItem('theme', newTheme);
+        });
+
+        // Listen for system theme changes
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+            if (!localStorage.getItem('theme')) {
+                applyTheme(e.matches ? 'dark' : 'light');
+            }
+        });
+
+        // ====================================
+        // NAVIGATION - ENHANCED
+        // ====================================
+        const navbar = document.getElementById('navbar');
+        const navLinks = document.querySelectorAll('.nav-link');
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileNav = document.getElementById('mobile-nav');
+        const mobileNavClose = document.getElementById('mobile-nav-close');
+        const mobileOverlay = document.getElementById('mobile-overlay');
+
+        // Navbar scroll effect - PERFORMANCE OPTIMIZED
+        let lastScroll = 0;
+        let ticking = false;
+
+        window.addEventListener('scroll', () => {
+            lastScroll = window.pageYOffset;
+            
+            if (!ticking) {
+                window.requestAnimationFrame(() => {
+                    if (lastScroll > 100) {
+                        navbar.classList.add('scrolled');
+                    } else {
+                        navbar.classList.remove('scrolled');
+                    }
+                    ticking = false;
+                });
+                
+                ticking = true;
+            }
+        });
+
+        // Mobile menu
+        function openMobileMenu() {
+            mobileNav.classList.add('open');
+            mobileOverlay.classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeMobileMenu() {
+            mobileNav.classList.remove('open');
+            mobileOverlay.classList.remove('open');
+            document.body.style.overflow = '';
+        }
+
+        mobileMenuBtn.addEventListener('click', openMobileMenu);
+        mobileNavClose.addEventListener('click', closeMobileMenu);
+        mobileOverlay.addEventListener('click', closeMobileMenu);
+
+        // Close mobile nav on link click
+        document.querySelectorAll('.mobile-nav-link').forEach(link => {
+            link.addEventListener('click', closeMobileMenu);
+        });
+
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                
+                if (target) {
+                    const offsetTop = target.offsetTop - 80;
+                    window.scrollTo({
+                        top: offsetTop,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Active section highlighting - PERFORMANCE OPTIMIZED
+        const sections = document.querySelectorAll('section[id]');
+        let scrollTicking = false;
+        
+        window.addEventListener('scroll', () => {
+            if (!scrollTicking) {
+                window.requestAnimationFrame(() => {
+                    let current = '';
+                    
+                    sections.forEach(section => {
+                        const sectionTop = section.offsetTop - 150;
+                        const sectionHeight = section.clientHeight;
+                        
+                        if (window.pageYOffset >= sectionTop && window.pageYOffset < sectionTop + sectionHeight) {
+                            current = section.getAttribute('id');
+                        }
+                    });
+                    
+                    navLinks.forEach(link => {
+                        link.classList.remove('active');
+                        if (link.getAttribute('href') === `#${current}`) {
+                            link.classList.add('active');
+                        }
+                    });
+                    
+                    scrollTicking = false;
+                });
+                
+                scrollTicking = true;
+            }
+        });
+
+        // ====================================
+        // MENU TABS - ENHANCED WITH FADE ANIMATIONS
+        // ====================================
+        const menuTabs = document.querySelectorAll('.menu-tab');
+        const menuSections = document.querySelectorAll('.menu-section');
+        let currentMenuSection = null;
+
+        function showMenuTab(tabName) {
+            // Get current and target sections
+            const currentSection = document.querySelector('.menu-section.active');
+            const targetSection = document.getElementById(tabName);
+            
+            if (!targetSection || currentSection === targetSection) return;
+            
+            // Update active tab
+            menuTabs.forEach(tab => {
+                tab.classList.remove('active');
+                tab.setAttribute('aria-selected', 'false');
+            });
+            
+            const activeTab = document.querySelector(`[data-tab="${tabName}"]`);
+            if (activeTab) {
+                activeTab.classList.add('active');
+                activeTab.setAttribute('aria-selected', 'true');
+            }
+
+            // ANIMATION: Fade out current section
+            if (currentSection) {
+                currentSection.classList.add('fade-out');
+                
+                setTimeout(() => {
+                    currentSection.classList.remove('active', 'fade-out');
+                    
+                    // ANIMATION: Fade in target section
+                    targetSection.classList.add('active');
+                    targetSection.classList.add('fade-in');
+                    
+                    // Animate menu items with staggered delay
+                    const menuItems = targetSection.querySelectorAll('.menu-item');
+                    menuItems.forEach((item, index) => {
+                        item.classList.remove('show');
+                        setTimeout(() => {
+                            item.classList.add('show');
+                        }, index * 60); // 60ms stagger for smooth effect
+                    });
+                    
+                    // Clean up fade-in class
+                    setTimeout(() => {
+                        targetSection.classList.remove('fade-in');
+                    }, 400);
+                }, 300);
+            } else {
+                // First load - just show
+                targetSection.classList.add('active');
+                const menuItems = targetSection.querySelectorAll('.menu-item');
+                menuItems.forEach((item, index) => {
+                    setTimeout(() => {
+                        item.classList.add('show');
+                    }, index * 60);
+                });
+            }
+
+            // Update URL without reload
+            const newUrl = `${window.location.pathname}#menu-${tabName}`;
+            history.pushState(null, '', newUrl);
+        }
+
+        menuTabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const tabName = tab.getAttribute('data-tab');
+                showMenuTab(tabName);
+            });
+        });
+
+        // Handle deep linking on page load
+        function handleMenuDeepLink() {
+            const hash = window.location.hash;
+            if (hash.startsWith('#menu-')) {
+                const tabName = hash.replace('#menu-', '');
+                showMenuTab(tabName);
+                
+                // Scroll to menu section
+                setTimeout(() => {
+                    const menuSection = document.getElementById('menu');
+                    if (menuSection) {
+                        const offsetTop = menuSection.offsetTop - 80;
+                        window.scrollTo({
+                            top: offsetTop,
+                            behavior: 'smooth'
+                        });
+                    }
+                }, 100);
+            } else {
+                // Show first tab by default
+                showMenuTab('dinner');
+            }
+        }
+
+        // ====================================
+        // SCROLL REVEAL ANIMATIONS - INTERSECTION OBSERVER
+        // ====================================
+        
+        // PERFORMANCE: Use Intersection Observer for scroll-triggered animations
+        const observerOptions = {
+            threshold: 0.15, // Trigger when 15% visible
+            rootMargin: '0px 0px -80px 0px' // Start animation slightly before element enters viewport
+        };
+
+        const scrollObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('revealed');
+                    // PERFORMANCE: Stop observing once revealed (animate once only)
+                    scrollObserver.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        // Observe all scroll-reveal elements
+        document.querySelectorAll('.scroll-reveal, .scroll-reveal-scale').forEach(el => {
+            scrollObserver.observe(el);
+        });
+
+        // ====================================
+        // INITIALIZATION
+        // ====================================
+        document.addEventListener('DOMContentLoaded', () => {
+            initTheme();
+            handleMenuDeepLink();
+        });
+
+        // Handle hash changes (back/forward navigation)
+        window.addEventListener('hashchange', () => {
+            if (window.location.hash.startsWith('#menu-')) {
+                const tabName = window.location.hash.replace('#menu-', '');
+                showMenuTab(tabName);
+            }
+        });
+
+        // ====================================
+        // PERFORMANCE: Preconnect to external resources
+        // ====================================
+        if ('requestIdleCallback' in window) {
+            requestIdleCallback(() => {
+                // Any deferred initialization can go here
+                console.log('Blackwood Restaurant - Enhanced animations loaded');
+            });
+        }
+    </script>
+</body>
+</html>
